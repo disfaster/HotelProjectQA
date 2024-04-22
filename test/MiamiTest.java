@@ -1,3 +1,4 @@
+import junitparams.Parameters;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -26,6 +27,7 @@ public class MiamiTest {
     }
 
     @Test
+    @Parameters({L})
     public void miamiHotelTest() throws InterruptedException {
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
@@ -51,19 +53,29 @@ public class MiamiTest {
         driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[1]/div[1]/div[2]/div/div[2]/div[2]/div[2]/div[2]/div[1]/div/input")).sendKeys("may 1");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[1]/div[1]/div[2]/div/div[2]/div[2]/div[2]/div[2]/div[1]/div/input")).sendKeys(Keys.ENTER);
+        //clicking done
         driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[1]/div[1]/div[2]/div/div[2]/div[4]/div[2]/button[2]")).click();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate startDate = LocalDate.of(2024, 5, 1);
         LocalDate endDate = LocalDate.of(2024, 12, 31);
-//        while (!startDate.equals(LocalDate.of(2024, 12, 31))) {
-//
-//            String price = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[2]/c-wiz/div[1]/div/div[1]/div[2]/span/div[1]/div/div/div/div/a/div[1]/div[2]/span/span/span/span[2]")).getText();
-//            //save price to database
-//            Thread.sleep(500);
-//
-//            //go next date
-//            driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[1]/div[1]/div/div[2]/div[1]/div/div[2]/button")).click();
-//        }
+        while (!startDate.equals(LocalDate.of(2024, 5, 3))) {
+            String startDateStr = startDate.format(formatter);
+            String endDateStr = startDate.plusDays(1).format(formatter);
+            //getPrice
+            Thread.sleep(Duration.ofSeconds(2));
+            WebElement getPrice = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[2]/c-wiz/div[1]/div/div[1]/div[2]/span/div[1]/div/div/div/div/a/div[1]/div[2]/span/span/span/span[2]"));
+            int price = Integer.parseInt(getPrice.getText().replace("$","").replace(",",""));
+
+            //print
+            System.out.println("Price: $" + price);
+            //save price to database
+            Thread.sleep(Duration.ofSeconds(2));
+
+            //go next date
+            startDate = startDate.plusDays(1);
+            driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[1]/div[1]/div/div[2]/div[1]/div/div[2]/button")).click();
+
+        }
 
 
 
