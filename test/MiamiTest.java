@@ -1,6 +1,8 @@
+import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@RunWith(JUnitParamsRunner.class)
 public class MiamiTest {
 
     private static WebDriver driver;
@@ -27,19 +30,21 @@ public class MiamiTest {
     }
 
     @Test
-    @Parameters({L})
-    public void miamiHotelTest() throws InterruptedException {
+    @Parameters({"Las Vegas Hilton", "New York Hilton", "Miami Hilton", "San Francisco Hilton"})
+    public void miamiHotelTest(String location) throws InterruptedException {
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
-        System.out.println(inputs.size());
         WebElement searchBox = null;
         for (WebElement temp : inputs) {
             if (temp.isDisplayed() && temp.getAttribute("placeholder").equals("Search for flights, hotels and more")) {
                 searchBox = temp;
+                break;
             }
         }
         //searchBox.sendKeys("New York Hilton");
-        searchBox.sendKeys("Las Vegas Hilton");
+        //searchBox.sendKeys("Las Vegas Hilton");
+        searchBox.sendKeys(location);
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         //clicking the first option
         driver.findElement(By.xpath("//*[@id=\"h0T7hb-48-51\"]")).click();
@@ -64,10 +69,13 @@ public class MiamiTest {
             //getPrice
             Thread.sleep(Duration.ofSeconds(2));
             WebElement getPrice = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[2]/c-wiz/div[1]/div/div[1]/div[2]/span/div[1]/div/div/div/div/a/div[1]/div[2]/span/span/span/span[2]"));
-            int price = Integer.parseInt(getPrice.getText().replace("$","").replace(",",""));
+            int price = Integer.parseInt(getPrice.getText().replace("$", "").replace(",", ""));
 
-            //print
+            //print price
             System.out.println("Price: $" + price);
+            //print date
+
+
             //save price to database
             Thread.sleep(Duration.ofSeconds(2));
 
@@ -78,7 +86,8 @@ public class MiamiTest {
         }
 
 
-
+    }
+}
 
 
 
@@ -94,9 +103,6 @@ public class MiamiTest {
 //        System.out.println(prices);
 
         //driver.findElement(By.xpath("//*[@id=\"dwrFZd0\"]/div[2]/div[1]/div/input")).click();
-
-        }
-    }
 
 
 //        WebElement hotelButton = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/div[2]/div/c-wiz/div/div/div[1]/div[1]/div[2]/div/div/div/div[1]/div/div/div[2]/input"));
