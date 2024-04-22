@@ -5,8 +5,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MiamiTest {
 
@@ -39,6 +42,25 @@ public class MiamiTest {
         Thread.sleep(Duration.ofSeconds(5));
         WebElement dates = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[2]/c-wiz[1]/c-wiz/div/div/div/div/div/div/div/section/div[1]/div[1]/div/div[2]/div[1]"));
         dates.click();
+        Thread.sleep(Duration.ofSeconds(1));
+        WebElement may1 = driver.findElement(By.cssSelector("div.Bc6Ryd:nth-child(2) > div:nth-child(3) > div:nth-child(1) > div:nth-child(1)"));
+        may1.click();
+        Thread.sleep(Duration.ofSeconds(1));
+        WebElement may2 = driver.findElement(By.cssSelector("div.Bc6Ryd:nth-child(2) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2)"));
+        may2.click();
+        Thread.sleep(Duration.ofSeconds(1));
+        WebElement datesDone = driver.findElement(By.cssSelector("button.VfPpkd-LgbsSe-OWXEXe-k8QpJ:nth-child(2)"));
+        datesDone.click();
+
+
         
+        while (){
+
+        }
+        ArrayList<String> priceList = new ArrayList<>();
+        WebElement price = driver.findElement(By.cssSelector(".MeOlDf > div:nth-child(1) > div:nth-child(2) > span:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1) > div:nth-child(1) > div:nth-child(2) > span:nth-child(1) > span:nth-child(1) > span:nth-child(1) > span:nth-child(2)"));
+        String stringPrice = price.getText();
+        priceList.add(stringPrice);
+
     }
 }
