@@ -30,7 +30,8 @@ public class MiamiTest {
     }
 
     @Test
-    @Parameters({"Las Vegas Hilton", "New York Hilton", "Miami Hilton", "San Francisco Hilton"})
+   @Parameters({"Las Vegas Hilton", "Las Vegas Bellagio", "Las Vegas Venetian", "Las Vegas Luxor", "Las Vegas Paris", "New York Hilton", "New York The Manhattan", "New York The Pearl", "New York Paramount", "New York Marriott", "Miami Hilton", "Miami InterContinental", "Miami Fontainebleau", "Miami Sagamore", "Miami Novotel", "San Francisco Hilton", "San Francisco Fairmont", "San Francisco Zephyr", "San Francisco The Marker", "San Francisco Hyatt Regency Soma", "Seattle Hilton", "Seattle Sheraton", "Seattle Four Seasons", "Seattle Marriott", "Seattle Warwick"})
+    //@Parameters({"Seattle Sheraton"})
     public void miamiHotelTest(String location) throws InterruptedException {
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
