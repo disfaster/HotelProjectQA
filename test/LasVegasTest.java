@@ -38,8 +38,10 @@ public class LasVegasTest {
     }
 
     @Test
-    @Parameters({"Las Vegas Hilton", "New York Hilton", "Miami Hilton", "San Francisco Hilton"})
+    @Parameters({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton Key", "Miami Holiday Inn West", "Miami Comfort Inn Airport"})
+
     public void miamiHotelTest(String location) throws InterruptedException {
+
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
         WebElement searchBox = null;
@@ -49,8 +51,6 @@ public class LasVegasTest {
                 break;
             }
         }
-        //searchBox.sendKeys("New York Hilton");
-        //searchBox.sendKeys("Las Vegas Hilton");
         searchBox.sendKeys(location);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
@@ -70,10 +70,10 @@ public class LasVegasTest {
         driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[1]/div[1]/div[2]/div/div[2]/div[4]/div[2]/button[2]")).click();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate startDate = LocalDate.of(2024, 5, 1);
-        LocalDate endDate = LocalDate.of(2024, 12, 31);
-        while (!startDate.equals(LocalDate.of(2024, 5, 3))) {
-            String startDateStr = startDate.format(formatter);
-            String endDateStr = startDate.plusDays(1).format(formatter);
+        LocalDate endDate = LocalDate.of(2024, 6, 1);
+        while (!startDate.equals(LocalDate.of(2024, 6, 1))) {
+//            String startDateStr = startDate.format(formatter);
+//            String endDateStr = startDate.plusDays(1).format(formatter);
             //getPrice
             Thread.sleep(Duration.ofSeconds(2));
             WebElement getPrice = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[2]/c-wiz/div[1]/div/div[1]/div[2]/span/div[1]/div/div/div/div/a/div[1]/div[2]/span/span/span/span[2]"));
@@ -85,8 +85,8 @@ public class LasVegasTest {
 
 
             //save price to database
-            Thread.sleep(Duration.ofSeconds(2));
-            insertToDBGoogleFlights("Miami", startDate.toString(), endDate.toString(), price);
+            Thread.sleep(2500);
+            insertToDBGoogleFlights(location, startDate.toString(), price);
 
 
             //go next date
@@ -98,15 +98,14 @@ public class LasVegasTest {
 
     }
 
-    public void insertToDBGoogleFlights(String destination, String startDate, String endDate, int price) {
+    public void insertToDBGoogleFlights(String destination, String startDate, int price) {
 
-        String sql = "insert into hotel (destination, startDate, endDate, price) values (?, ?, ?, ?)";
+        String sql = "insert into miamiHotels(destination, startDate, price) values (?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, destination);
             ps.setString(2, startDate);
-            ps.setString(3, endDate);
-            ps.setInt(4, price);
+            ps.setInt(3, price);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,7 +128,6 @@ public class LasVegasTest {
                 // Prints the cheapest flights queried result set
                 System.out.println("Destination: " + cheapestFlights.getString("destination") +
                         ", Start_Date: " + cheapestFlights.getString("startDate") +
-                        ", End_Date: " + cheapestFlights.getString("endDate") +
                         ", Price: " + cheapestFlights.getString("price"));
             }
         }

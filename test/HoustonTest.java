@@ -15,9 +15,10 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RunWith(JUnitParamsRunner.class)
-public class MiamiTest {
+public class HoustonTest {
 
     private static WebDriver driver;
     private String GOOGLE_URL = "https://www.google.com/travel/";
@@ -38,10 +39,12 @@ public class MiamiTest {
     }
 
     @Test
-    @Parameters({"las vegas hilton", "las vegas marriott", "Aloft Henderson", "Holiday Inn Express Las Vegas-Nellis", "comfort Inn Las Vegas"})
+    @Parameters({"Houston Hilton", "Houston Marriott", "Aloft Houston by the Galleria", "Holiday Inn Houston Downtown", "Comfort Inn & Suites SW Houston Sugarland"})
 
-    public void LasVegasHotelTest(String location) throws InterruptedException {
+    public void HoustonHotelTest(String location) throws InterruptedException {
+        Integer price = null; // Declare and initialize price outside try block
 
+        try{
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
         WebElement searchBox = null;
@@ -79,7 +82,7 @@ public class MiamiTest {
             //getPrice
             Thread.sleep(Duration.ofSeconds(2));
             WebElement getPrice = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[2]/c-wiz/div[1]/div/div[1]/div[2]/span/div[1]/div/div/div/div/a/div[1]/div[2]/span/span/span/span[2]"));
-            int price = Integer.parseInt(getPrice.getText().replace("$", "").replace(",", ""));
+            price = Integer.parseInt(getPrice.getText().replace("$", "").replace(",", ""));
 
             //print price
             System.out.println("Price: $" + price);
@@ -94,8 +97,21 @@ public class MiamiTest {
             //go next date
             startDate = startDate.plusDays(1);
             driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[1]/div[1]/div/div[2]/div[1]/div/div[2]/button")).click();
-
         }
+} catch (NoSuchElementException e) {
+    // Handle the NoSuchElementException here
+    System.err.println("Element not found: " + e.getMessage());
+    // Optionally, you can take appropriate action such as logging or retrying
+    price = null; // Set price to null
+
+} catch (NumberFormatException e) {
+    // Handle the NumberFormatException here
+    System.err.println("Error parsing price: " + e.getMessage());
+    // Optionally, you can take appropriate action such as logging or retrying
+    price = null; // Set price to null
+
+}
+
 
 
     }
