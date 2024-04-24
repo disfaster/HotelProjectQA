@@ -38,10 +38,9 @@ public class LasVegasTest {
     }
 
     @Test
-    @Parameters({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton Key", "Miami Holiday Inn West", "Miami Comfort Inn Airport"})
-    //@Parameters({"Miami Comfort Inn Airport"})
+    @Parameters({"las vegas hilton", "las vegas marriott", "Aloft Henderson", "Holiday Inn Express Las Vegas-Nellis", "comfort Inn Las Vegas"})
 
-    public void miamiHotelTest(String location) throws InterruptedException {
+    public void LasVegasHotelTest(String location) throws InterruptedException {
 
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
@@ -74,7 +73,7 @@ public class LasVegasTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate startDate = LocalDate.of(2024, 5, 1);
         LocalDate endDate = LocalDate.of(2024, 6, 1);
-        while (!startDate.equals(LocalDate.of(2024, 6, 1))) {
+        while (!startDate.equals(LocalDate.of(2024, 8, 1))) {
 //            String startDateStr = startDate.format(formatter);
 //            String endDateStr = startDate.plusDays(1).format(formatter);
             //getPrice
@@ -103,7 +102,7 @@ public class LasVegasTest {
 
     public void insertToDBGoogleFlights(String destination, String startDate, int price) {
 
-        String sql = "insert into miamiHotels(destination, startDate, price) values (?, ?, ?)";
+        String sql = "insert into lasVegasHotels(destination, startDate, price) values (?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, destination);
@@ -118,9 +117,9 @@ public class LasVegasTest {
 
 
     @Test
-    @Parameters ({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton Key", "Miami Holiday Inn West", "Miami Comfort Inn Airport"})
+    @Parameters({"las vegas hilton", "las vegas marriott", "Aloft Henderson", "Holiday Inn Express Las Vegas-Nellis", "comfort Inn Las Vegas"})
     public void getCheapestFlights(String hotelName) throws Exception {
-        String sql = "SELECT destination, startDate, price FROM miamiHotels WHERE UPPER(destination) = UPPER('" + hotelName + "')" +
+        String sql = "SELECT destination, startDate, price FROM lasVegasHotels WHERE UPPER(destination) = UPPER('" + hotelName + "')" +
                 " ORDER BY price ASC LIMIT 10";
 //        String sql = "SELECT * FROM miamiHotels";
         ResultSet cheapestFlights = null;

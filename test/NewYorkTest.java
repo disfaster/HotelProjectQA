@@ -73,7 +73,7 @@ public class NewYorkTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate startDate = LocalDate.of(2024, 5, 1);
         LocalDate endDate = LocalDate.of(2024, 6, 1);
-        while (!startDate.equals(LocalDate.of(2024, 6, 1))) {
+        while (!startDate.equals(LocalDate.of(2024, 8, 1))) {
 //            String startDateStr = startDate.format(formatter);
 //            String endDateStr = startDate.plusDays(1).format(formatter);
             //getPrice
@@ -102,7 +102,7 @@ public class NewYorkTest {
 
     public void insertToDBGoogleFlights(String destination, String startDate, int price) {
 
-        String sql = "insert into miamiHotels(destination, startDate, price) values (?, ?, ?)";
+        String sql = "insert into newYorkHotels(destination, startDate, price) values (?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, destination);
@@ -117,9 +117,9 @@ public class NewYorkTest {
 
 
     @Test
-    @Parameters ({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton Key", "Miami Holiday Inn West", "Miami Comfort Inn Airport"})
+    @Parameters({"hilton new york", "marriott new york downtown", "the ritz carlton new york central park", "Holiday Inn Express New York City-Wall Street", "comfort Inn New York City"})
     public void getCheapestFlights(String hotelName) throws Exception {
-        String sql = "SELECT destination, startDate, price FROM miamiHotels WHERE UPPER(destination) = UPPER('" + hotelName + "')" +
+        String sql = "SELECT destination, startDate, price FROM newYorkHotels WHERE UPPER(destination) = UPPER('" + hotelName + "')" +
                 " ORDER BY price ASC LIMIT 10";
 //        String sql = "SELECT * FROM miamiHotels";
         ResultSet cheapestFlights = null;

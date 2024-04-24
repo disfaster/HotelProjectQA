@@ -76,11 +76,11 @@ public class HoustonTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate startDate = LocalDate.of(2024, 5, 1);
         LocalDate endDate = LocalDate.of(2024, 6, 1);
-        while (!startDate.equals(LocalDate.of(2024, 6, 1))) {
+        while (!startDate.equals(LocalDate.of(2024, 8, 1))) {
 //            String startDateStr = startDate.format(formatter);
 //            String endDateStr = startDate.plusDays(1).format(formatter);
             //getPrice
-            Thread.sleep(Duration.ofSeconds(2));
+            Thread.sleep(Duration.ofSeconds(3));
             WebElement getPrice = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[2]/c-wiz/div[1]/div/div[1]/div[2]/span/div[1]/div/div/div/div/a/div[1]/div[2]/span/span/span/span[2]"));
             price = Integer.parseInt(getPrice.getText().replace("$", "").replace(",", ""));
 
@@ -118,7 +118,7 @@ public class HoustonTest {
 
     public void insertToDBGoogleFlights(String destination, String startDate, int price) {
 
-        String sql = "insert into miamiHotels(destination, startDate, price) values (?, ?, ?)";
+        String sql = "insert into houstonHotels(destination, startDate, price) values (?, ?, ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, destination);
@@ -133,9 +133,11 @@ public class HoustonTest {
 
 
     @Test
-    public void getCheapestFlights() {
-        String sql = "SELECT destination, startDate, endDate, price FROM hotel WHERE (destination, price) " +
-                "IN (SELECT destination, MIN(price) AS minPrice FROM hotel GROUP BY destination)";
+    @Parameters({"Houston Hilton", "Houston Marriott", "Aloft Houston by the Galleria", "Holiday Inn Houston Downtown", "Comfort Inn & Suites SW Houston Sugarland"})
+    public void getCheapestFlights(String hotelName) throws Exception {
+        String sql = "SELECT destination, startDate, price FROM houstonHotels WHERE UPPER(destination) = UPPER('" + hotelName + "')" +
+                " ORDER BY price ASC LIMIT 10";
+//        String sql = "SELECT * FROM miamiHotels";
         ResultSet cheapestFlights = null;
         try {
             PreparedStatement ps = connection.prepareStatement(sql);

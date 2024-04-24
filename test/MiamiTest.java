@@ -38,9 +38,10 @@ public class MiamiTest {
     }
 
     @Test
-    @Parameters({"las vegas hilton", "las vegas marriott", "Aloft Henderson", "Holiday Inn Express Las Vegas-Nellis", "comfort Inn Las Vegas"})
+    @Parameters({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton Key", "Miami Holiday Inn West", "Miami Comfort Inn Airport"})
+    //@Parameters({"Miami Comfort Inn Airport"})
 
-    public void LasVegasHotelTest(String location) throws InterruptedException {
+    public void miamiHotelTest(String location) throws InterruptedException {
 
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
@@ -73,11 +74,11 @@ public class MiamiTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate startDate = LocalDate.of(2024, 5, 1);
         LocalDate endDate = LocalDate.of(2024, 6, 1);
-        while (!startDate.equals(LocalDate.of(2024, 6, 1))) {
+        while (!startDate.equals(LocalDate.of(2024, 8, 1))) {
 //            String startDateStr = startDate.format(formatter);
 //            String endDateStr = startDate.plusDays(1).format(formatter);
             //getPrice
-            Thread.sleep(Duration.ofSeconds(2));
+            Thread.sleep(Duration.ofSeconds(3));
             WebElement getPrice = driver.findElement(By.xpath("/html/body/c-wiz[2]/div/c-wiz/div[1]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div[2]/span[1]/c-wiz[1]/c-wiz[3]/div/section/div[2]/c-wiz/div[1]/div/div[1]/div[2]/span/div[1]/div/div/div/div/a/div[1]/div[2]/span/span/span/span[2]"));
             int price = Integer.parseInt(getPrice.getText().replace("$", "").replace(",", ""));
 
@@ -117,9 +118,11 @@ public class MiamiTest {
 
 
     @Test
-    public void getCheapestFlights() {
-        String sql = "SELECT destination, startDate, endDate, price FROM hotel WHERE (destination, price) " +
-                "IN (SELECT destination, MIN(price) AS minPrice FROM hotel GROUP BY destination)";
+    @Parameters ({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton Key", "Miami Holiday Inn West", "Miami Comfort Inn Airport"})
+    public void getCheapestFlights(String hotelName) throws Exception {
+        String sql = "SELECT destination, startDate, price FROM miamiHotels WHERE UPPER(destination) = UPPER('" + hotelName + "')" +
+                " ORDER BY price ASC LIMIT 10";
+//        String sql = "SELECT * FROM miamiHotels";
         ResultSet cheapestFlights = null;
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
