@@ -38,8 +38,11 @@ public class LasVegasTest {
     }
 
     @Test
-    @Parameters({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton", "Miami Four Seasons", "Miami Hyatt"})
+    @Parameters({"Miami Hilton", "Miami Marriott", "Miami Ritz Carlton Key", "Miami Holiday Inn West", "Miami Comfort Inn Airport"})
+    //@Parameters({"Miami Comfort Inn Airport"})
+
     public void miamiHotelTest(String location) throws InterruptedException {
+
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
         WebElement searchBox = null;
