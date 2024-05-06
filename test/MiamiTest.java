@@ -30,8 +30,8 @@ public class MiamiTest {
     }
 
     @Test
-   @Parameters({"Las Vegas Hilton", "Las Vegas Bellagio", "Las Vegas Venetian", "Las Vegas Luxor", "Las Vegas Paris", "New York Hilton", "New York The Manhattan", "New York The Pearl", "New York Paramount", "New York Marriott", "Miami Hilton", "Miami InterContinental", "Miami Fontainebleau", "Miami Sagamore", "Miami Novotel", "San Francisco Hilton", "San Francisco Fairmont", "San Francisco Zephyr", "San Francisco The Marker", "San Francisco Hyatt Regency Soma", "Seattle Hilton", "Seattle Sheraton", "Seattle Four Seasons", "Seattle Marriott", "Seattle Warwick"})
-    //@Parameters({"Seattle Sheraton"})
+   //@Parameters({"Las Vegas Hilton", "Las Vegas Bellagio", "Las Vegas Venetian", "Las Vegas Luxor", "Las Vegas Paris", "New York Hilton", "New York The Manhattan", "New York The Pearl", "New York Paramount", "New York Marriott", "Miami Hilton", "Miami InterContinental", "Miami Fontainebleau", "Miami Sagamore", "Miami Novotel", "San Francisco Hilton", "San Francisco Fairmont", "San Francisco Zephyr", "San Francisco The Marker", "San Francisco Hyatt Regency Soma", "Seattle Hilton", "Seattle Sheraton", "Seattle Four Seasons", "Seattle Marriott", "Seattle Warwick"})
+    @Parameters({"Seattle Sheraton"})
     public void miamiHotelTest(String location) throws InterruptedException {
         driver.get(GOOGLE_URL);
         List<WebElement> inputs = driver.findElements(By.tagName("input"));
@@ -64,7 +64,7 @@ public class MiamiTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate startDate = LocalDate.of(2024, 5, 1);
         LocalDate endDate = LocalDate.of(2024, 12, 31);
-        while (!startDate.equals(LocalDate.of(2024, 5, 3))) {
+        while (!startDate.equals(LocalDate.of(2024, 6, 1))) {
             String startDateStr = startDate.format(formatter);
             String endDateStr = startDate.plusDays(1).format(formatter);
             //getPrice
